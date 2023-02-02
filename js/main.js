@@ -125,6 +125,7 @@ function generateGrid(grid, difficulty) {
     // STABILISCO LIVELLO DI DIFFICOLTA'
     let squareClass;
     let gridDimension;
+    let punteggioUtente = 0;
     if (difficulty == 1) {
         gridDimension = 100;
         squareClass = 'easy'
@@ -154,11 +155,17 @@ function generateGrid(grid, difficulty) {
             function () {
                 // ATTIVO/DISATTIVO CLASSE .active 
                 this.classList.toggle('active');
+                // AUMENTO IL PUNTEGGIO 
+                punteggioUtente++
                 // DEFINISCO NUMERO DEL QUADRATO
                 const squareNumber = parseInt(this.innerHTML);
                 if (bombs.includes(squareNumber)) {
+                    this.classList.toggle('active');
                     this.classList.add('bomb');
-                    console.log('BOMBA');
+                    if (this.classList.contains('bomb')) {
+                        alert('Gioco terminato. Il tuo punteggio è ' + punteggioUtente);
+                    }
+                    punteggioUtente = 0;
                 }
             }
         )
