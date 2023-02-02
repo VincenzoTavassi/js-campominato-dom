@@ -14,12 +14,12 @@
  *                                                   *
  ****************************************************/
 
-let testButton = document.getElementById('test');
-testButton.addEventListener('click', function handler() {
-    ///this will execute only once
-    alert('only once!');
-    this.removeEventListener('click', handler);
-});
+// let testButton = document.getElementById('test');
+// testButton.addEventListener('click', function handler() {
+//     ///this will execute only once
+//     alert('only once!');
+//     this.removeEventListener('click', handler);
+// });
 
 // DEFINE HTML ELEMENTS 
 // grid 
