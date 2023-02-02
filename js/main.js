@@ -89,16 +89,17 @@ startButtonEl.addEventListener('click',
             difficultyValue = selectedSquaresButtonEl.value;
             bombsRange = selectedSquaresButtonEl.value;
         }
-        // RESET E GENERO 16 BOMBE SE VIENE SELEZIONATA UNA DELLE DIFFICOLTA' DI DEFAULT
+        // RESET
         bombs.length = 0;
+        // GENERO 16 BOMBE SE VIENE SELEZIONATA UNA DELLE DIFFICOLTA' DI DEFAULT
         if (difficultyValue == 1 || difficultyValue == 2 || difficultyValue == 3) {
             while (bombs.length < 16) {
                 randomNumber = parseInt(Math.floor(Math.random() * bombsRange) + 1);
                 if (!bombs.includes(randomNumber)) {
                     bombs.push(randomNumber);
                 }
-                // ALTRIMENTI GENERO BOMBE PER IL 25% DELLE CASELLE CHIESTE DALL'UTENTE
             }
+            // ALTRIMENTI GENERO BOMBE PER IL 25% DELLE CASELLE CHIESTE DALL'UTENTE
         } else {
             while (bombs.length < difficultyValue * .25) {
                 randomNumber = parseInt(Math.floor(Math.random() * bombsRange) + 1);
@@ -146,6 +147,7 @@ function generateGrid(grid, difficulty) {
     // STABILISCO LIVELLO DI DIFFICOLTA'
     let squareClass;
     let gridDimension;
+    // il punteggioUtente parte da zero 
     let punteggioUtente = 0;
     if (difficulty == 1) {
         gridDimension = 100;
@@ -165,8 +167,9 @@ function generateGrid(grid, difficulty) {
     // GENERO UN NUMERO DI QUADRATI PARI ALLA DIMENSIONE RICHIESTA 
     for (let i = 0; i < gridDimension; i++) {
         let newSquareEl = document.createElement('div');
-        // AGGIUNGO QUADRATO CON CLASSE IN BASE ALLA DIFFICOLTA' 
+        // AGGIUNGO QUADRATO CON CLASSE IN BASE ALLA DIFFICOLTA' E PREPARO VARIABILE CON TUTTI I QUADRATI
         newSquareEl.classList.add('square', squareClass);
+        let allsquares = document.getElementsByClassName('square');
         // INSERISCO NUMERO DEL QUADRATO 
         newSquareEl.append(i + 1);
         // AGGIUNGO QUADRATO ALLA GRIGLIA 
@@ -187,7 +190,6 @@ function generateGrid(grid, difficulty) {
                 this.innerHTML = ('KA BOOM!');
                 gameLog.innerHTML = `<strong>Gioco terminato. Il tuo punteggio è ${punteggioUtente - 1}!</strong>`;
                 // MOSTRO TUTTE LE ALTRE BOMBE
-                let allsquares = document.getElementsByClassName('square');
                 for (let i = 0; i < allsquares.length; i++) {
                     let currentSquare = allsquares[i];
                     let currentSquareNumber = parseInt(currentSquare.innerHTML);
@@ -198,10 +200,16 @@ function generateGrid(grid, difficulty) {
                     // RIMUOVO EVENT LISTENER 
                     currentSquare.outerHTML = currentSquare.outerHTML;
                 }
+                // RESET PUNTEGGIO UTENTE 
                 punteggioUtente = 0;
             }
             if (punteggioUtente == (gridDimension - bombs.length)) {
                 gameLog.innerHTML = `<strong>COMPLIMENTI! HAI VINTO!</strong>`;
+                for (let i = 0; i < allsquares.length; i++) {
+                    let currentSquare = allsquares[i];
+                    // RIMUOVO EVENT LISTENER 
+                    currentSquare.outerHTML = currentSquare.outerHTML;
+                }
             }
         }
 
