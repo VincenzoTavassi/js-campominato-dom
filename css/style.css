@@ -1,0 +1,49 @@
+body {
+    text-align: center;
+    background-color: hsl(195deg 81% 16%);
+    color: white;
+}
+
+#grid {
+    height: 80vh;
+    background-color: gray;
+    align-content: flex-start;
+}
+
+.square {
+    background-color: hsl(42deg 100% 70%);
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: crosshair;
+    padding: 50px;
+    font-weight: bold;
+}
+
+.square.active {
+    background-color: hsl(195deg 81% 39%);
+}
+
+.square.bomb {
+    background-color: red;
+}
+
+.square.medium {
+    width: calc(100% / 9);
+    height: calc(100% / 9);
+}
+
+.square.hard {
+    width: calc(100% / 7);
+    height: calc(100% / 7);
+}
+
+.square.easy {
+    width: calc(100% / 10);
+    height: calc(100% / 10);
+}
+
+#square-number {
+    vertical-align: middle;
+}
