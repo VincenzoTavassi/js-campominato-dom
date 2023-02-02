@@ -44,6 +44,10 @@ body {
     height: calc(100% / 10);
 }
 
+.hidden-bomb {
+    background-color: hsl(346deg 85% 61%);
+}
+
 #square-number {
     vertical-align: middle;
 }
