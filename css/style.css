@@ -51,3 +51,8 @@ body {
 #square-number {
     vertical-align: middle;
 }
+
+#game-log {
+    font-size: 1.5rem;
+    color: hsl(346deg 85% 61%);
+}

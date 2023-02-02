@@ -36,6 +36,8 @@ const selectedSquaresNumberEl = document.getElementById('selected-square-number'
 // radio buttons
 const difficultyRadio = document.getElementById('selezione-difficolta');
 const generateSquaresRadio = document.getElementById('selezione-libera');
+//game p log 
+const gameLog = document.getElementById('game-log');
 
 // DEFINE BOMBS ARRAY
 let bombs = [];
@@ -69,6 +71,7 @@ selectedSquaresButtonEl.addEventListener('input', function () {
 // start game button. Comincia il gioco in base alla difficoltà scelta dall'utente OPPURE in base al numero di quadrati selezionati.
 startButtonEl.addEventListener('click',
     function () {
+        gameLog.innerHTML = ``;
         const selectedDifficulty = difficultyInputEl.value;
         let difficultyValue = 1;
         let bombsRange = 100;
@@ -86,14 +89,25 @@ startButtonEl.addEventListener('click',
             difficultyValue = selectedSquaresButtonEl.value;
             bombsRange = selectedSquaresButtonEl.value;
         }
-        // RESET E GENERO 16 BOMBE
+        // RESET E GENERO 16 BOMBE SE VIENE SELEZIONATA UNA DELLE DIFFICOLTA' DI DEFAULT
         bombs.length = 0;
-        while (bombs.length < 16) {
-            randomNumber = parseInt(Math.floor(Math.random() * bombsRange) + 1);
-            if (!bombs.includes(randomNumber)) {
-                bombs.push(randomNumber);
+        if (difficultyValue == 1 || difficultyValue == 2 || difficultyValue == 3) {
+            while (bombs.length < 16) {
+                randomNumber = parseInt(Math.floor(Math.random() * bombsRange) + 1);
+                if (!bombs.includes(randomNumber)) {
+                    bombs.push(randomNumber);
+                }
+                // ALTRIMENTI GENERO BOMBE PER IL 25% DELLE CASELLE CHIESTE DALL'UTENTE
+            }
+        } else {
+            while (bombs.length < difficultyValue * .25) {
+                randomNumber = parseInt(Math.floor(Math.random() * bombsRange) + 1);
+                if (!bombs.includes(randomNumber)) {
+                    bombs.push(randomNumber);
+                }
             }
         }
+
         console.log(bombs);
         // GENERO LA GRIGLIA 
         generateGrid(gridEl, difficultyValue);
@@ -102,10 +116,10 @@ startButtonEl.addEventListener('click',
 // reset game button 
 resetButtonEl.addEventListener('click', function () {
     gridEl.innerHTML = '';
+    gameLog.innerHTML = ``;
     selectedSquaresButtonEl.value = 100;
     selectedSquaresNumberEl.innerHTML = selectedSquaresButtonEl.value;
 })
-
 
 
 /*****************************************************
@@ -171,7 +185,7 @@ function generateGrid(grid, difficulty) {
                 this.classList.toggle('active');
                 this.classList.add('bomb');
                 this.innerHTML = ('KA BOOM!');
-                alert('Gioco terminato. Il tuo punteggio è ' + (punteggioUtente - 1));
+                gameLog.innerHTML = `<strong>Gioco terminato. Il tuo punteggio è ${punteggioUtente - 1}!</strong>`;
                 // MOSTRO TUTTE LE ALTRE BOMBE
                 let allsquares = document.getElementsByClassName('square');
                 for (let i = 0; i < allsquares.length; i++) {
@@ -185,6 +199,9 @@ function generateGrid(grid, difficulty) {
                     currentSquare.outerHTML = currentSquare.outerHTML;
                 }
                 punteggioUtente = 0;
+            }
+            if (punteggioUtente == (gridDimension - bombs.length)) {
+                gameLog.innerHTML = `<strong>COMPLIMENTI! HAI VINTO!</strong>`;
             }
         }
 
