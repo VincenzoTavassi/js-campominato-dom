@@ -14,6 +14,13 @@
  *                                                   *
  ****************************************************/
 
+let testButton = document.getElementById('test');
+testButton.addEventListener('click', function handler() {
+    ///this will execute only once
+    alert('only once!');
+    this.removeEventListener('click', handler);
+});
+
 // DEFINE HTML ELEMENTS 
 // grid 
 const gridEl = document.getElementById('grid');
@@ -152,24 +159,38 @@ function generateGrid(grid, difficulty) {
         grid.append(newSquareEl);
         // AGGIUNGO EVENT LISTENER PER IL CLICK UTENTE 
         newSquareEl.addEventListener('click',
-            function () {
+            function percorsoUtente() {
                 // ATTIVO/DISATTIVO CLASSE .active 
                 this.classList.toggle('active');
                 // AUMENTO IL PUNTEGGIO 
                 punteggioUtente++
                 // DEFINISCO NUMERO DEL QUADRATO
                 const squareNumber = parseInt(this.innerHTML);
+                // SE EQUIVALE AD UNA BOMBA ESEGUO IL CODICE 
                 if (bombs.includes(squareNumber)) {
                     this.classList.toggle('active');
                     this.classList.add('bomb');
-                    if (this.classList.contains('bomb')) {
-                        alert('Gioco terminato. Il tuo punteggio è ' + punteggioUtente);
+                    this.innerHTML = ('BOMBA!');
+                    alert('Gioco terminato. Il tuo punteggio è ' + punteggioUtente);
+                    // MOSTRO TUTTE LE ALTRE BOMBE
+                    let allsquares = document.getElementsByClassName('square');
+                    for (let i = 0; i < allsquares.length; i++) {
+                        let currentSquare = allsquares[i]
+                        let currentSquareNumber = parseInt(currentSquare.innerHTML);
+                        if (bombs.includes(currentSquareNumber)) {
+                            currentSquare.classList.add('bomb');
+                            currentSquare.innerHTML = ('Bomba');
+                        }
+                        // RIMUOVO EVENT LISTENER 
+                        currentSquare.removeEventListener('click', percorsoUtente);
                     }
-                    punteggioUtente = 0;
                 }
+                punteggioUtente = 0;
             }
-        )
 
+
+
+        )
     }
 
 }
