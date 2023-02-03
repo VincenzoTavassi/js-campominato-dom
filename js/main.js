@@ -178,7 +178,7 @@ function generateGrid(grid, difficulty) {
         newSquareEl.addEventListener('click', function () {
             // console.log(newSquareEl); {
             // ATTIVO/DISATTIVO CLASSE .active 
-            this.classList.toggle('active');
+            this.classList.add('active');
             // AUMENTO IL PUNTEGGIO 
             punteggioUtente++
             // DEFINISCO NUMERO DEL QUADRATO
@@ -211,7 +211,8 @@ function generateGrid(grid, difficulty) {
                     currentSquare.outerHTML = currentSquare.outerHTML;
                 }
             }
-        }
+            // LISTENER VALIDO SOLO PER UN CLICK 
+        }, { once: true }
 
         )
     }
